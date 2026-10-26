@@ -60,6 +60,22 @@ final GoRouter appRouter = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       builder: (context, state) => const CheckoutScreen(),
     ),
+    GoRoute(
+      path: '/product-details',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) {
+        Product? product =
+            state.extra is Product ? state.extra as Product : null;
+        final id = state.uri.queryParameters['id'];
+        if (product == null && id != null) {
+          for (final p in MockData.products) {
+            if (p.id == id) product = p;
+          }
+        }
+        if (product == null) return const HomeScreen();
+        return ProductDetailsScreen(product: product);
+      },
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return MainShell(navigationShell: navigationShell);
@@ -70,20 +86,6 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: '/home',
               builder: (context, state) => const HomeScreen(),
-            ),
-            GoRoute(
-              path: '/product-details',
-              builder: (context, state) {
-                Product? product = state.extra is Product ? state.extra as Product : null;
-                final id = state.uri.queryParameters['id'];
-                if (product == null && id != null) {
-                  for (final p in MockData.products) {
-                    if (p.id == id) product = p;
-                  }
-                }
-                if (product == null) return const HomeScreen();
-                return ProductDetailsScreen(product: product);
-              },
             ),
             GoRoute(
               path: '/search',
