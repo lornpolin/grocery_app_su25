@@ -40,9 +40,10 @@ class ProfileScreen extends StatelessWidget {
         title: 'My Orders',
         onTap: () => context.go('/orders'),
       ),
-      const _SettingItem(
+      _SettingItem(
         icon: Icons.favorite_border_rounded,
         title: 'Favorites',
+        onTap: () => context.push('/favorites'),
       ),
       const _SettingItem(
         icon: Icons.location_on_outlined,

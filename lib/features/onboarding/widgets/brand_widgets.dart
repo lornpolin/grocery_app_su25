@@ -43,21 +43,20 @@ class _PlusPatternPainter extends CustomPainter {
     final paint = Paint()..color = BrandColors.wave.withValues(alpha: 0.45);
     void plus(double cx, double cy, double s) {
       canvas.drawRRect(
-          RRect.fromRectAndRadius(
-              Rect.fromCenter(center: Offset(cx, cy), width: s, height: s / 3),
-              const Radius.circular(4)),
-          paint);
+        RRect.fromRectAndRadius(
+          Rect.fromCenter(center: Offset(cx, cy), width: s, height: s / 3),
+          const Radius.circular(4),
+        ),
+        paint,
+      );
       canvas.drawRRect(
-          RRect.fromRectAndRadius(
-              Rect.fromCenter(center: Offset(cx, cy), width: s / 3, height: s),
-              const Radius.circular(4)),
-          paint);
+        RRect.fromRectAndRadius(
+          Rect.fromCenter(center: Offset(cx, cy), width: s / 3, height: s),
+          const Radius.circular(4),
+        ),
+        paint,
+      );
     }
-
-    plus(size.width * 0.1, size.height * 0.3, 70);
-    plus(size.width * 0.92, size.height * 0.3, 70);
-    plus(size.width * 0.1, size.height * 0.62, 70);
-    plus(size.width * 0.92, size.height * 0.62, 70);
   }
 
   @override
@@ -69,10 +68,22 @@ class _WavePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final path = Path()
       ..moveTo(0, size.height * 0.45)
-      ..cubicTo(size.width * 0.25, size.height * 0.05, size.width * 0.45,
-          size.height * 0.1, size.width * 0.62, size.height * 0.45)
-      ..cubicTo(size.width * 0.8, size.height * 0.75, size.width * 0.92,
-          size.height * 0.5, size.width, size.height * 0.35)
+      ..cubicTo(
+        size.width * 0.25,
+        size.height * 0.05,
+        size.width * 0.45,
+        size.height * 0.1,
+        size.width * 0.62,
+        size.height * 0.45,
+      )
+      ..cubicTo(
+        size.width * 0.8,
+        size.height * 0.75,
+        size.width * 0.92,
+        size.height * 0.5,
+        size.width,
+        size.height * 0.35,
+      )
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height)
       ..close();
@@ -107,8 +118,11 @@ class BrandLogo extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Icon(Icons.shopping_basket_rounded,
-              size: size * 0.5, color: BrandColors.primary),
+          Icon(
+            Icons.shopping_basket_rounded,
+            size: size * 0.5,
+            color: BrandColors.primary,
+          ),
           Positioned(
             top: size * 0.22,
             right: size * 0.2,
@@ -120,8 +134,11 @@ class BrandLogo extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 2),
               ),
-              child: Icon(Icons.eco_rounded,
-                  size: size * 0.18, color: Colors.white),
+              child: Icon(
+                Icons.eco_rounded,
+                size: size * 0.18,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
@@ -138,11 +155,20 @@ class BrandTitle extends StatelessWidget {
     return RichText(
       text: const TextSpan(
         style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 44, fontWeight: FontWeight.w800, letterSpacing: -1.5),
+          fontFamily: 'Inter',
+          fontSize: 44,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -1.5,
+        ),
         children: [
-          TextSpan(text: 'Fresh ', style: TextStyle(color: BrandColors.navy)),
-          TextSpan(text: 'Cart', style: TextStyle(color: BrandColors.primary)),
+          TextSpan(
+            text: 'Fresh ',
+            style: TextStyle(color: BrandColors.navy),
+          ),
+          TextSpan(
+            text: 'Cart',
+            style: TextStyle(color: BrandColors.primary),
+          ),
         ],
       ),
     );

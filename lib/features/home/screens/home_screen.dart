@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../providers/app_providers.dart';
 import '../../../models/product.dart';
@@ -27,7 +28,11 @@ const _homeCategories = [
   _HomeCategory('Coffee', Icons.coffee_rounded, Color(0xFF795548)),
   _HomeCategory('Fruits', Icons.apple_rounded, Color(0xFFE53935)),
   _HomeCategory('Baby', Icons.child_friendly_rounded, Color(0xFFEC6FA0)),
-  _HomeCategory('Household', Icons.cleaning_services_rounded, Color(0xFF7E57C2)),
+  _HomeCategory(
+    'Household',
+    Icons.cleaning_services_rounded,
+    Color(0xFF7E57C2),
+  ),
 ];
 
 class HomeScreen extends ConsumerWidget {
@@ -54,17 +59,17 @@ class HomeScreen extends ConsumerWidget {
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   clipBehavior: Clip.none,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   itemCount: products.length,
                   separatorBuilder: (_, __) => const SizedBox(width: 12),
                   itemBuilder: (_, i) => ProductTile(product: products[i]),
                 ),
               ),
             ),
-            const SliverToBoxAdapter(
-              child: _SectionTitle(title: 'Offers'),
-            ),
+            const SliverToBoxAdapter(child: _SectionTitle(title: 'Offers')),
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 112,
@@ -120,24 +125,33 @@ class _HomeHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('DELIVERY TO',
-                    style: TextStyle(
-                        fontSize: 10,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.w600,
-                        color: _homeMuted)),
-                Text('Phnom Penh',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: _homeTitle)),
+                Text(
+                  'DELIVERY TO',
+                  style: TextStyle(
+                    fontSize: 10,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.w600,
+                    color: _homeMuted,
+                  ),
+                ),
+                Text(
+                  'Phnom Penh',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: _homeTitle,
+                  ),
+                ),
               ],
             ),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.notifications_none_rounded,
-                color: _homeMuted, size: 26),
+            icon: SvgPicture.asset(
+              'assets/icons/notification.svg',
+              width: 26,
+              height: 26,
+            ),
           ),
         ],
       ),
@@ -162,12 +176,22 @@ class _HomeSearchBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
             border: Border.all(color: const Color(0xFFE2E8F0)),
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(Icons.search, color: _homeMuted),
-              SizedBox(width: 10),
-              Text('Search products',
-                  style: TextStyle(color: Color(0xFF94A3B8), fontSize: 15)),
+              SvgPicture.asset(
+                'assets/icons/search.svg',
+                width: 22,
+                height: 22,
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFF94A3B8),
+                  BlendMode.srcIn,
+                ),
+              ),
+              const SizedBox(width: 10),
+              const Text(
+                'Search products',
+                style: TextStyle(color: Color(0xFF94A3B8), fontSize: 15),
+              ),
             ],
           ),
         ),
@@ -210,13 +234,17 @@ class _CategoriesPanel extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 8, right: 4),
                     decoration: const BoxDecoration(
                       border: Border(
-                          bottom: BorderSide(color: _homeAccent, width: 2)),
+                        bottom: BorderSide(color: _homeAccent, width: 2),
+                      ),
                     ),
-                    child: const Text('Categories',
-                        style: TextStyle(
-                            color: _homeAccent,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14)),
+                    child: const Text(
+                      'Categories',
+                      style: TextStyle(
+                        color: _homeAccent,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ),
                 const Divider(height: 1, color: Color(0xFFE2E8F0)),
@@ -230,7 +258,8 @@ class _CategoriesPanel extends StatelessWidget {
                     crossAxisSpacing: 8,
                     childAspectRatio: 0.82,
                     children: [
-                      for (final c in _homeCategories) _CategoryTile(category: c),
+                      for (final c in _homeCategories)
+                        _CategoryTile(category: c),
                     ],
                   ),
                 ),
@@ -251,11 +280,14 @@ class _CategoriesPanel extends StatelessWidget {
                   ),
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 22, vertical: 6),
-                    child: Text('See all',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600)),
+                    child: Text(
+                      'See all',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -276,7 +308,9 @@ class _DashedPillPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final outer = RRect.fromRectAndRadius(
-        Offset.zero & size, Radius.circular(size.height / 2));
+      Offset.zero & size,
+      Radius.circular(size.height / 2),
+    );
     canvas.drawRRect(outer, Paint()..color = fill);
 
     final path = Path()..addRRect(outer.deflate(2.5));
@@ -318,10 +352,12 @@ class _CategoryTile extends StatelessWidget {
             child: Icon(category.icon, color: category.color, size: 30),
           ),
           const SizedBox(height: 6),
-          Text(category.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 12, color: _homeTitle)),
+          Text(
+            category.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 12, color: _homeTitle),
+          ),
         ],
       ),
     );
@@ -340,16 +376,21 @@ class _SectionTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title,
-              style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  color: _homeTitle)),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w800,
+              color: _homeTitle,
+            ),
+          ),
           if (onSeeAll != null)
             GestureDetector(
               onTap: onSeeAll,
-              child: const Text('See all',
-                  style: TextStyle(color: _homeMuted, fontSize: 14)),
+              child: const Text(
+                'See all',
+                style: TextStyle(color: _homeMuted, fontSize: 14),
+              ),
             ),
         ],
       ),
@@ -361,8 +402,11 @@ class _PromoBanner extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imageUrl;
-  const _PromoBanner(
-      {required this.title, required this.subtitle, required this.imageUrl});
+  const _PromoBanner({
+    required this.title,
+    required this.subtitle,
+    required this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -376,7 +420,8 @@ class _PromoBanner extends StatelessWidget {
             CachedNetworkImage(
               imageUrl: imageUrl,
               fit: BoxFit.cover,
-              placeholder: (_, __) => const ColoredBox(color: AppColors.primaryDeep),
+              placeholder: (_, __) =>
+                  const ColoredBox(color: AppColors.primaryDeep),
               errorWidget: (_, __, ___) =>
                   const ColoredBox(color: AppColors.primaryDeep),
             ),
@@ -398,24 +443,31 @@ class _PromoBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 19,
-                          fontWeight: FontWeight.w700)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   const SizedBox(height: 2),
-                  Text(subtitle,
-                      style:
-                          const TextStyle(color: Colors.white70, fontSize: 12)),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
                   const SizedBox(height: 8),
                   const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Shop Now',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13)),
+                      Text(
+                        'Shop Now',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                        ),
+                      ),
                       SizedBox(width: 6),
                       Icon(Icons.arrow_forward, color: Colors.white, size: 15),
                     ],
@@ -432,14 +484,14 @@ class _PromoBanner extends StatelessWidget {
 
 class ProductCard extends ConsumerWidget {
   final Product product;
-  
+
   const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final isFavorite = ref.watch(favoriteProvider).contains(product.id);
-    
+
     return GestureDetector(
       onTap: () {
         context.push('/product-details?id=${product.id}', extra: product);
@@ -459,94 +511,103 @@ class ProductCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Expanded(
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                  child: CachedNetworkImage(
-                    imageUrl: product.imageUrl,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                  ),
-                ),
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: InkWell(
-                    onTap: () {
-                      ref.read(favoriteProvider.notifier).toggleFavorite(product.id);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey,
-                        size: 20,
-                      ),
+            Expanded(
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: product.imageUrl,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  product.name,
-                  style: theme.textTheme.titleMedium,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  product.unit,
-                  style: theme.textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '\$${product.price.toStringAsFixed(2)}',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    InkWell(
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: InkWell(
                       onTap: () {
-                        ref.read(cartProvider.notifier).addToCart(product);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('${product.name} added to cart')),
-                        );
+                        ref
+                            .read(favoriteProvider.notifier)
+                            .toggleFavorite(product.id);
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(8),
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.add, color: Colors.white, size: 20),
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : Colors.grey,
+                          size: 20,
+                        ),
                       ),
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.name,
+                    style: theme.textTheme.titleMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(product.unit, style: theme.textTheme.bodyMedium),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '\$${product.price.toStringAsFixed(2)}',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          ref.read(cartProvider.notifier).addToCart(product);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('${product.name} added to cart'),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primary,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

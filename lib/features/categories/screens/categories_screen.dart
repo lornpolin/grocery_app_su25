@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../models/product.dart';
@@ -92,8 +93,9 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
     _CategoryItem selected,
   ) {
     if (selected.id == 'all') return allProducts;
-    final filtered =
-        allProducts.where((p) => p.categoryId == selected.id).toList();
+    final filtered = allProducts
+        .where((p) => p.categoryId == selected.id)
+        .toList();
     return filtered.isNotEmpty ? filtered : allProducts;
   }
 
@@ -152,11 +154,11 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                             physics: const NeverScrollableScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisExtent: 218,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 16,
-                            ),
+                                  crossAxisCount: 2,
+                                  mainAxisExtent: 218,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 16,
+                                ),
                             itemCount: products.length,
                             itemBuilder: (context, index) {
                               return _CategoryProductCard(
@@ -227,10 +229,11 @@ class _TopDeliveryHeader extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(
-              Icons.notifications_none_rounded,
-              color: _catMuted,
-              size: 26,
+            icon: SvgPicture.asset(
+              'assets/icons/notification.svg', // Replace with your actual path
+              width: 26,
+              height: 26,
+              colorFilter: const ColorFilter.mode(_catMuted, BlendMode.srcIn),
             ),
           ),
         ],
@@ -263,11 +266,19 @@ class _TopSearchBar extends StatelessWidget {
               ),
             ],
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(Icons.search, color: _catMuted, size: 22),
-              SizedBox(width: 10),
-              Text(
+              SvgPicture.asset(
+                'assets/icons/search.svg',
+                width: 22,
+                height: 22,
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFF94A3B8),
+                  BlendMode.srcIn,
+                ),
+              ),
+              const SizedBox(width: 10),
+              const Text(
                 'Search products',
                 style: TextStyle(color: Color(0xFF94A3B8), fontSize: 15),
               ),
@@ -380,11 +391,7 @@ class _CategoryHeaderBanner extends StatelessWidget {
               color: _catSoftBlue,
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Icon(
-              category.icon,
-              color: category.color,
-              size: 26,
-            ),
+            child: Icon(category.icon, color: category.color, size: 26),
           ),
           const SizedBox(width: 14),
           Expanded(
